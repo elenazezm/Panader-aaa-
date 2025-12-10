@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi Perfil - Panadería Navideña</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="header">
+    <div class="header-content">
+      <h1>Panadería Navideña</h1>
+      <div class="nav-links">
+        <a href="/productos.html">Productos</a>
+        <a href="/carrito.html">Carrito </a>
+        <a href="/perfil.html">Mi Perfil</a>
+        <button class="btn-logout" onclick="cerrarSesion()">Cerrar Sesión</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="form-container">
+      <h2>Mi Perfil</h2>
+      <div id="perfilInfo"></div>
+      
+      <div id="adminLink" style="display: none; text-align: center; margin-top: 30px;">
+        <a href="/admin.html" class="btn btn-secondary">Panel de Administración</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    async function cargarPerfil() {
+      try {
+        const res = await fetch('/api/auth/perfil');
+        if (!res.ok) {
+          window.location.href = '/login.html';
+          return;
+        }
+        
+        const usuario = await res.json();
+        
+        document.getElementById('perfilInfo').innerHTML = `
+          <div class="form-group">
+            <label>Nombre Completo:</label>
+            <input type="text" value="${usuario.nombre} ${usuario.apellido}" readonly>
+          </div>
+          <div class="form-group">
+            <label>Correo:</label>
+            <input type="email" value="${usuario.correo}" readonly>
+          </div>
+          <div class="form-group">
+            <label>ID de Cliente:</label>
+            <input type="text" value="${usuario.id}" readonly>
+          </div>
+        `;
+        
+        if (usuario.isAdmin) {
+          document.getElementById('adminLink').style.display = 'block';
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        window.location.href = '/login.html';
+      }
+    }
+    
+    async function cerrarSesion() {
+      await fetch('/api/auth/logout', { method: 'POST' });
+      window.location.href = '/login.html';
+    }
+    
+    cargarPerfil();
+  </script>
+</body>
+</html>

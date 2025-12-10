@@ -1,0 +1,434 @@
+
+:root {
+  --rojo-navidad: #c41e3a;
+  --verde-navidad: #0f7f3f;
+  --dorado: #ffd700;
+  --blanco-nieve: #fffafa;
+  --gris-claro: #f5f5f5;
+  --texto: #2c3e50;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, var(--blanco-nieve) 0%, var(--gris-claro) 100%);
+  min-height: 100vh;
+  color: var(--texto);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.header {
+  background: linear-gradient(135deg, var(--rojo-navidad) 0%, var(--verde-navidad) 100%);
+  color: white;
+  padding: 20px 0;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header h1 {
+  font-size: 2em;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.header h1::before {
+  content: "🎄 ";
+}
+
+.header h1::after {
+  content: " 🎁";
+}
+
+.nav-links {
+  display: flex;
+  gap: 20px;
+}
+
+.nav-links a, .btn-logout {
+  color: white;
+  text-decoration: none;
+  padding: 10px 20px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 8px;
+  transition: all 0.3s;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.nav-links a:hover, .btn-logout:hover {
+  background: rgba(255,255,255,0.3);
+  transform: translateY(-2px);
+}
+
+.form-container {
+  max-width: 500px;
+  margin: 50px auto;
+  background: white;
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.form-container h2 {
+  text-align: center;
+  color: var(--rojo-navidad);
+  margin-bottom: 30px;
+  font-size: 2em;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: var(--texto);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: border-color 0.3s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--rojo-navidad);
+}
+
+.btn {
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-top: 10px;
+}
+
+.btn-primary {
+  background: var(--rojo-navidad);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #a01729;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(196, 30, 58, 0.3);
+}
+
+.btn-secondary {
+  background: var(--verde-navidad);
+  color: white;
+}
+
+.btn-secondary:hover {
+  background: #0c6633;
+}
+
+.btn-danger {
+  background: #dc3545;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.btn-danger:hover {
+  background: #c82333;
+}
+
+.text-link {
+  text-align: center;
+  margin-top: 20px;
+  color: var(--texto);
+}
+
+.text-link a {
+  color: var(--verde-navidad);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.text-link a:hover {
+  text-decoration: underline;
+}
+
+.mensaje {
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.mensaje.error {
+  background: #fee;
+  color: #c00;
+  border: 1px solid #fcc;
+}
+
+.mensaje.exito {
+  background: #efe;
+  color: #060;
+  border: 1px solid #cfc;
+}
+
+.productos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 25px;
+  margin-top: 30px;
+}
+
+.producto-card {
+  background: white;
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.producto-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.producto-card h3 {
+  color: var(--rojo-navidad);
+  margin-bottom: 10px;
+  font-size: 1.4em;
+}
+
+.producto-card .precio {
+  font-size: 1.8em;
+  color: var(--verde-navidad);
+  font-weight: bold;
+  margin: 15px 0;
+}
+
+.producto-card .stock {
+  color: #666;
+  font-size: 0.9em;
+  margin-bottom: 10px;
+}
+
+.producto-card .descripcion {
+  color: #666;
+  margin-bottom: 15px;
+  line-height: 1.5;
+}
+
+.cantidad-control {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.cantidad-control input {
+  width: 80px;
+  text-align: center;
+  padding: 8px;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+}
+
+.carrito-items {
+  background: white;
+  border-radius: 15px;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.carrito-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.carrito-item:last-child {
+  border-bottom: none;
+}
+
+.item-info h3 {
+  color: var(--rojo-navidad);
+  margin-bottom: 5px;
+}
+
+.item-precio {
+  color: var(--verde-navidad);
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+.carrito-total {
+  background: var(--gris-claro);
+  padding: 25px;
+  border-radius: 10px;
+  margin-top: 20px;
+  text-align: right;
+}
+
+.carrito-total h2 {
+  color: var(--texto);
+  font-size: 2em;
+}
+
+.carrito-total .total-monto {
+  color: var(--verde-navidad);
+  font-size: 2.5em;
+  font-weight: bold;
+}
+
+.tabla-admin {
+  background: white;
+  border-radius: 15px;
+  padding: 20px;
+  margin-top: 20px;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table th {
+  background: var(--rojo-navidad);
+  color: white;
+  padding: 15px;
+  text-align: left;
+  font-weight: 600;
+}
+
+table td {
+  padding: 15px;
+  border-bottom: 1px solid #eee;
+}
+
+table tr:hover {
+  background: var(--gris-claro);
+}
+
+.ticket {
+  background: white;
+  max-width: 500px;
+  margin: 30px auto;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  border: 3px dashed var(--rojo-navidad);
+}
+
+.ticket h2 {
+  text-align: center;
+  color: var(--rojo-navidad);
+  margin-bottom: 20px;
+  font-size: 2em;
+}
+
+.ticket-info {
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #eee;
+}
+
+.ticket-info strong {
+  color: var(--verde-navidad);
+}
+
+.ticket-productos {
+  margin: 20px 0;
+}
+
+.ticket-productos h3 {
+  color: var(--rojo-navidad);
+  margin-bottom: 10px;
+}
+
+.ticket-productos ul {
+  list-style: none;
+}
+
+.ticket-productos li {
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.ticket-total {
+  text-align: right;
+  font-size: 1.8em;
+  color: var(--verde-navidad);
+  font-weight: bold;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 2px solid var(--rojo-navidad);
+}
+
+.text-center {
+  text-align: center;
+}
+
+.mt-20 {
+  margin-top: 20px;
+}
+
+.mb-20 {
+  margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+  .header-content {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .nav-links {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .productos-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .carrito-item {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+}
