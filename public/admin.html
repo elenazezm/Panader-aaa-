@@ -60,6 +60,20 @@
           <input type="number" id="stock" min="0" max="999999" value="0">
         </div>
 
+        <div class="form-group">
+          <label for="imagen_url">URL de la Imagen</label>
+          <input type="url" id="imagen_url" placeholder="https://... (Cloudinary, S3, etc.)" autocomplete="off">
+          <small style="display:block; margin-top:8px; opacity:0.8;">
+            Pega una URL pública (HTTPS). Opcional.
+          </small>
+
+          <!-- Preview opcional -->
+          <div style="margin-top: 12px;">
+            <img id="previewImagen" alt="Preview de imagen"
+              style="max-width: 220px; max-height: 220px; border-radius: 10px; display: none;" />
+          </div>
+        </div>
+
         <button type="submit" class="btn btn-primary">Agregar Producto</button>
       </form>
     </div>
@@ -84,6 +98,32 @@
     </div>
   </div>
 
+  <script>
+    // ✅ Preview simple de la imagen al pegar la URL
+    (function () {
+      const input = document.getElementById('imagen_url');
+      const img = document.getElementById('previewImagen');
+
+      if (!input || !img) return;
+
+      const setPreview = (url) => {
+        const clean = (url || '').trim();
+        if (!clean) {
+          img.style.display = 'none';
+          img.removeAttribute('src');
+          return;
+        }
+        img.src = clean;
+        img.style.display = 'block';
+      };
+
+      input.addEventListener('input', () => setPreview(input.value));
+      input.addEventListener('change', () => setPreview(input.value));
+
+      // Si el navegador autocompleta
+      setTimeout(() => setPreview(input.value), 150);
+    })();
+  </script>
   <script src="/js/admin.js"></script>
 </body>
 
