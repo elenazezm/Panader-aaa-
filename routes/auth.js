@@ -35,10 +35,10 @@ router.post(
 
       await pool.query(
         'INSERT INTO metodo_autenticacion (idcliente, idproveedor_autenticacion, password_hash) VALUES (?, 1, ?)',
-        [idcliente, password] 
+        [idcliente, password]
       );
 
-      await pool.query('INSERT INTO carrito (idcliente, idproducto, cantidad, activo) VALUES (?, 0, 0, 0)', [idcliente]);
+      //await pool.query('INSERT INTO carrito (idcliente, idproducto, cantidad, activo) VALUES (?, 0, 0, 0)', [idcliente]);
 
       res.json({ mensaje: 'Registro exitoso. Ahora puedes iniciar sesión.' });
     } catch (error) {

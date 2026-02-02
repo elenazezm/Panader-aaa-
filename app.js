@@ -15,7 +15,7 @@ const sessionStore = new MySQLStore({}, pool);
 app.use(
   session({
     key: 'panaderia_session',
-    secret: process.env.SESSION_SECRET,
+    secret: process.env.SESSION_SECRET || 'panaderia-zeltzin',
     store: sessionStore,
     resave: false,
     saveUninitialized: false,
