@@ -1,63 +1,136 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Carrito - Panadería Navideña</title>
-  <link rel="stylesheet" href="/css/style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🛒 Carrito - Panadería Navideña</title>
+<link rel="stylesheet" href="/css/carrito.css">
+<!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 <body>
-  <div class="header">
-    <div class="header-content">
-      <h1>Panadería Navideña</h1>
-      <div class="nav-links">
-        <a href="/productos.html">Productos</a>
-        <a href="/carrito.html">Carrito</a>
-        <a href="/perfil.html">Mi Perfil</a>
-        <button class="btn-logout" onclick="cerrarSesion()">Cerrar Sesión</button>
-      </div>
-    </div>
-  </div>
+<div class="header">
+<div class="header-content">
+<h1>🥐 Panadería La Desesperanza</h1>
+<div class="nav-links">
+<a href="/productos.html">Productos</a>
+<a href="/carrito.html">Carrito</a>
+<a href="/perfil.html">Mi Perfil</a>
+<button class="btn-logout" onclick="cerrarSesion()">Cerrar Sesión</button>
+</div>
+</div>
+</div>
 
-  <div class="container">
-    <h2 style="text-align: center; margin: 30px 0; color: var(--rojo-navidad); font-size: 2.5em;">
-    Mi Carrito
-    </h2>
-    
-    <div id="mensaje"></div>
-    <div id="carritoItems" class="carrito-items"></div>
-    
-    <div id="carritoTotal" class="carrito-total" style="display: none;">
-      <h2>Total:</h2>
-      <div class="total-monto">$<span id="totalMonto">0.00</span></div>
-      <button class="btn btn-primary" style="max-width: 300px; margin-left: auto; margin-top: 20px;" onclick="procesarCompra()">
-        Procesar Compra
-      </button>
-    </div>
-  </div>
+<div class="container">
+<h2 class="titulo-carrito">🛒 Mi Carrito de Compras</h2>
+<div id="mensaje"></div>
+<div class="carrito-contenido">
+<div id="carritoItems" class="carrito-items"></div>
+<div id="carritoResumen" class="carrito-resumen" style="display: none;">
+<div class="resumen-card">
+<h3>📋 Resumen de Compra</h3>
+<div class="resumen-detalle">
+<div class="resumen-linea">
+<span>Subtotal:</span>
+<span class="resumen-precio">$<span id="subtotalMonto">0.00</span></span>
+</div>
+<div class="resumen-linea total-linea">
+<span>Total a Pagar:</span>
+<span class="resumen-total">$<span id="totalMonto">0.00</span></span>
+</div>
+</div>
+<button class="btn btn-comprar" onclick="procesarCompra()">
+✅ Procesar Compra
+</button>
+<button class="btn btn-vaciar" onclick="vaciarCarrito()">
+🗑️ Vaciar Carrito
+</button>
+</div>
+</div>
+</div>
+</div>
 
-  <div id="modalTicket" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; overflow-y: auto;">
-    <div class="ticket" style="margin: 50px auto;">
-      <h2>Ticket de Compra </h2>
-      <div class="ticket-info">
-        <p><strong>Panadería Navideña</strong></p>
-        <p><strong>Número de Venta:</strong> <span id="ticketNumero"></span></p>
-        <p><strong>Fecha:</strong> <span id="ticketFecha"></span></p>
-      </div>
-      
-      <div class="ticket-productos">
-        <h3>Productos Comprados:</h3>
-        <ul id="ticketProductos"></ul>
-      </div>
-      
-      <div class="ticket-total">
-        Total: $<span id="ticketTotal"></span>
-      </div>
-      
-      <button class="btn btn-primary" onclick="cerrarTicket()">Cerrar</button>
-    </div>
-  </div>
+<!-- Modal Ticket -->
+<div id="modalTicket" class="modal-overlay">
+<div class="modal-content">
+<div class="ticket">
+<div class="ticket-header">
+<h2>🧾 Ticket de Compra</h2>
+<div class="ticket-logo">🥐</div>
+</div>
+<div class="ticket-info">
+<p class="ticket-empresa">Panadería La Desesperanza</p>
+<p class="ticket-slogan">Hecho con amor y mantequilla ✨</p>
+<hr>
+<div class="ticket-datos">
+<p><strong>🔢 Número de Venta:</strong> <span id="ticketNumero"></span></p>
+<p><strong>📅 Fecha:</strong> <span id="ticketFecha"></span></p>
+</div>
+</div>
+<div class="ticket-productos">
+<h3>🧁 Productos Comprados</h3>
+<ul id="ticketProductos"></ul>
+</div>
+<hr>
+<div class="ticket-total">
+<span>Total Pagado:</span>
+<span class="ticket-total-monto">$<span id="ticketTotal">0.00</span></span>
+</div>
+<div class="ticket-footer">
+<p>¡Gracias por su compra!</p>
+<p>Que disfrute sus productos 🎄</p>
+</div>
+<button class="btn btn-cerrar-ticket" onclick="cerrarTicket()">
+✓ Cerrar
+</button>
+</div>
+</div>
+</div>
 
-  <script src="/js/carrito.js"></script>
+<footer class="footer">
+<div class="footer-container">
+<div class="footer-brand">
+<h3>🥐 Panadería La Desesperanza</h3>
+<p>Hecho con amor, mantequilla y espíritu navideño.</p>
+</div>
+<div class="footer-contact">
+<h4>Contacto</h4>
+<p>📍 Zócalo, Centro Histórico, CDMX</p>
+<p>📞 55 0000 0000</p>
+<p>✉️ panaderialadesesperanza@gmail.com</p>
+</div>
+</div>
+
+<!-- Mapa -->
+<div class="footer-mapa">
+<h4>📍 Encuéntranos</h4>
+<div id="mapa" style="height: 300px; border-radius: 15px; overflow: hidden;"></div>
+</div>
+
+<div class="footer-bottom">
+© 2026 Panadería La Desesperanza · Todos los derechos reservados
+</div>
+</footer>
+
+<!-- Script del mapa -->
+<script>
+// Inicializar mapa solo si el elemento existe
+if (document.getElementById('mapa')) {
+  const mapa = L.map('mapa').setView([19.4326, -99.1332], 16);
+  
+  // Agregar capa de mapa
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors'
+  }).addTo(mapa);
+  
+  // Marcador en el Zócalo
+  const marker = L.marker([19.4326, -99.1332]).addTo(mapa);
+  marker.bindPopup('<b>🥐 Panadería La Desesperanza</b><br>Zócalo, Centro Histórico').openPopup();
+}
+</script>
+
+<script src="/js/carrito.js"></script>
 </body>
 </html>

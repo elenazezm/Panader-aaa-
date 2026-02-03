@@ -7,10 +7,8 @@ async function cargarCarrito() {
       window.location.href = '/login.html';
       return;
     }
-    
     const res = await fetch('/api/carrito');
     carrito = await res.json();
-    
     renderCarrito();
   } catch (error) {
     console.error('Error:', error);
@@ -20,29 +18,48 @@ async function cargarCarrito() {
 
 function renderCarrito() {
   const container = document.getElementById('carritoItems');
+  const resumen = document.getElementById('carritoResumen');
   
   if (carrito.items.length === 0) {
-    container.innerHTML = '<p style="text-align: center; padding: 40px;">Tu carrito está vacío 🛒</p>';
-    document.getElementById('carritoTotal').style.display = 'none';
+    container.innerHTML = `
+      <div class="carrito-vacio">
+        <div class="vacio-icono">🛒</div>
+        <h3>Tu carrito está vacío</h3>
+        <p>¡Agrega algunos productos deliciosos!</p>
+        <a href="/productos.html" class="btn btn-productos">
+          🥐 Ver Productos
+        </a>
+      </div>
+    `;
+    resumen.style.display = 'none';
     return;
   }
-  
+
   container.innerHTML = carrito.items.map(item => `
-    <div class="carrito-item">
-      <div class="item-info">
-        <h3>${item.nombre}</h3>
-        <p>Cantidad: ${item.cantidad} ${item.unidad_medida}</p>
-        <p>Precio unitario: $${parseFloat(item.precio).toFixed(2)}</p>
+    <div class="carrito-item-card">
+      <div class="item-imagen">
+        ${item.imagen ? 
+          `<img src="${item.imagen}" alt="${item.nombre}">` : 
+          `<div class="imagen-placeholder">🥐</div>`
+        }
       </div>
-      <div style="text-align: right;">
-        <p class="item-precio">$${parseFloat(item.subtotal).toFixed(2)}</p>
-        <button class="btn-danger" onclick="eliminarItem(${item.idcarrito})">Eliminar ❌</button>
+      <div class="item-detalles">
+        <h3 class="item-nombre">${item.nombre}</h3>
+        <p class="item-cantidad">Cantidad: <strong>${item.cantidad} ${item.unidad_medida}</strong></p>
+        <p class="item-precio-unitario">Precio unitario: <strong>$${parseFloat(item.precio).toFixed(2)}</strong></p>
+      </div>
+      <div class="item-acciones">
+        <p class="item-subtotal">$${parseFloat(item.subtotal).toFixed(2)}</p>
+        <button class="btn-eliminar" onclick="eliminarItem(${item.idcarrito})" title="Eliminar producto">
+          🗑️ Eliminar
+        </button>
       </div>
     </div>
   `).join('');
-  
+
+  document.getElementById('subtotalMonto').textContent = parseFloat(carrito.total).toFixed(2);
   document.getElementById('totalMonto').textContent = parseFloat(carrito.total).toFixed(2);
-  document.getElementById('carritoTotal').style.display = 'block';
+  resumen.style.display = 'block';
 }
 
 async function eliminarItem(idcarrito) {
@@ -50,9 +67,8 @@ async function eliminarItem(idcarrito) {
   
   try {
     const res = await fetch(`/api/carrito/${idcarrito}`, { method: 'DELETE' });
-    
     if (res.ok) {
-      mostrarMensaje('Producto eliminado', 'exito');
+      mostrarMensaje('✅ Producto eliminado del carrito', 'exito');
       cargarCarrito();
     } else {
       const data = await res.json();
@@ -64,8 +80,24 @@ async function eliminarItem(idcarrito) {
   }
 }
 
+async function vaciarCarrito() {
+  if (!confirm('¿Estás seguro de vaciar todo el carrito?')) return;
+  
+  try {
+    // Eliminar todos los items uno por uno
+    for (const item of carrito.items) {
+      await fetch(`/api/carrito/${item.idcarrito}`, { method: 'DELETE' });
+    }
+    mostrarMensaje('🗑️ Carrito vaciado', 'exito');
+    cargarCarrito();
+  } catch (error) {
+    console.error('Error:', error);
+    mostrarMensaje('Error al vaciar carrito', 'error');
+  }
+}
+
 async function procesarCompra() {
-  if (!confirm('¿Confirmar compra?')) return;
+  if (!confirm('¿Confirmar la compra de todos los productos?')) return;
   
   try {
     const res = await fetch('/api/carrito/comprar', { method: 'POST' });
@@ -88,15 +120,17 @@ function mostrarTicket(ticket) {
   document.getElementById('ticketFecha').textContent = ticket.fecha;
   
   const productosHTML = ticket.productos.map(p => `
-    <li>
-      ${p.nombre} x${p.cantidad} - $${parseFloat(p.precio).toFixed(2)} c/u
+    <li class="ticket-producto-item">
+      <span class="producto-detalle">
+        ${p.nombre} <span class="producto-cantidad">x${p.cantidad}</span>
+      </span>
+      <span class="producto-precio">$${parseFloat(p.precio * p.cantidad).toFixed(2)}</span>
     </li>
   `).join('');
   
   document.getElementById('ticketProductos').innerHTML = productosHTML;
-  document.getElementById('ticketTotal').textContent = ticket.total;
-  
-  document.getElementById('modalTicket').style.display = 'block';
+  document.getElementById('ticketTotal').textContent = parseFloat(ticket.total).toFixed(2);
+  document.getElementById('modalTicket').style.display = 'flex';
 }
 
 function cerrarTicket() {
@@ -120,4 +154,5 @@ function mostrarMensaje(texto, tipo) {
   }, 3000);
 }
 
+// Cargar carrito al iniciar
 cargarCarrito();

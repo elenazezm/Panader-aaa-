@@ -5,16 +5,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mi Perfil - Panadería Navideña</title>
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/perfil.css">
+  <!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 
 <body>
   <div class="header">
     <div class="header-content">
-      <h1>Panadería Navideña</h1>
+      <h1>🥐 Panadería La Desesperanza</h1>
       <div class="nav-links">
         <a href="/productos.html">Productos</a>
-        <a href="/carrito.html">Carrito </a>
+        <a href="/carrito.html">Carrito</a>
         <a href="/perfil.html">Mi Perfil</a>
         <button class="btn-logout" onclick="cerrarSesion()">Cerrar Sesión</button>
       </div>
@@ -23,14 +27,56 @@
 
   <div class="container">
     <div class="form-container">
-      <h2>Mi Perfil</h2>
+      <h2>👤 Mi Perfil</h2>
       <div id="perfilInfo"></div>
 
       <div id="adminLink" style="display: none; text-align: center; margin-top: 30px;">
-        <a href="/admin.html" class="btn btn-secondary">Panel de Administración</a>
+        <a href="/admin.html" class="btn btn-secondary">🛠 Panel de Administración</a>
       </div>
     </div>
   </div>
+
+  <footer class="footer">
+<div class="footer-container">
+<div class="footer-brand">
+<h3>🥐 Panadería La Desesperanza</h3>
+<p>Hecho con amor, mantequilla y espíritu navideño.</p>
+</div>
+<div class="footer-contact">
+<h4>Contacto</h4>
+<p>📍 Zócalo, Centro Histórico, CDMX</p>
+<p>📞 55 0000 0000</p>
+<p>✉️ panaderialadesesperanza@gmail.com</p>
+</div>
+</div>
+
+<!-- Mapa -->
+<div class="footer-mapa">
+<h4>📍 Encuéntranos</h4>
+<div id="mapa" style="height: 300px; border-radius: 15px; overflow: hidden;"></div>
+</div>
+
+<div class="footer-bottom">
+© 2026 Panadería La Desesperanza · Todos los derechos reservados
+</div>
+</footer>
+
+<!-- Script del mapa -->
+<script>
+// Inicializar mapa solo si el elemento existe
+if (document.getElementById('mapa')) {
+  const mapa = L.map('mapa').setView([19.4326, -99.1332], 16);
+  
+  // Agregar capa de mapa
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors'
+  }).addTo(mapa);
+  
+  // Marcador en el Zócalo
+  const marker = L.marker([19.4326, -99.1332]).addTo(mapa);
+  marker.bindPopup('<b>🥐 Panadería La Desesperanza</b><br>Zócalo, Centro Histórico').openPopup();
+}
+</script>
 
   <script>
     async function cargarPerfil() {

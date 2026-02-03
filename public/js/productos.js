@@ -7,10 +7,8 @@ async function cargarProductos() {
       window.location.href = '/login.html';
       return;
     }
-    
     const res = await fetch('/api/productos');
     productos = await res.json();
-    
     renderProductos();
   } catch (error) {
     console.error('Error:', error);
@@ -22,25 +20,53 @@ function renderProductos() {
   const grid = document.getElementById('productosGrid');
   
   if (productos.length === 0) {
-    grid.innerHTML = '<p style="text-align: center; grid-column: 1/-1;">No hay productos disponibles</p>';
+    grid.innerHTML = '<p style="text-align: center; grid-column: 1/-1; font-size: 1.2em; color: #666;">No hay productos disponibles</p>';
     return;
   }
-  
+
   grid.innerHTML = productos.map(p => `
     <div class="producto-card">
-      <h3>${p.nombre}</h3>
-      <p class="descripcion">${p.descripcion}</p>
-      <p class="precio">$${parseFloat(p.precio).toFixed(2)}</p>
-      <p class="stock">Stock: ${p.stock || 0} ${p.unidad_medida}</p>
-      
-      <div class="cantidad-control">
-        <label>Cantidad:</label>
-        <input type="number" id="cant-${p.idproducto}" value="1" min="1" max="${p.stock || 1}">
+      <div class="producto-imagen">
+        ${p.imagen ? 
+          `<img src="${p.imagen}" alt="${p.nombre}">` : 
+          `<div class="imagen-placeholder">
+            <span>🥐</span>
+          </div>`
+        }
+        ${(!p.stock || p.stock === 0) ? '<div class="badge-agotado">Agotado</div>' : ''}
       </div>
       
-      <button class="btn btn-primary" onclick="agregarAlCarrito(${p.idproducto})" ${!p.stock || p.stock === 0 ? 'disabled' : ''}>
-        ${!p.stock || p.stock === 0 ? 'Sin Stock' : 'Agregar al Carrito 🛒'}
-      </button>
+      <div class="producto-info">
+        <h3 class="producto-nombre">${p.nombre}</h3>
+        <p class="producto-descripcion">${p.descripcion}</p>
+        
+        <div class="producto-footer">
+          <div class="precio-stock">
+            <p class="producto-precio">$${parseFloat(p.precio).toFixed(2)}</p>
+            <p class="producto-stock">Stock: ${p.stock || 0} ${p.unidad_medida}</p>
+          </div>
+          
+          <div class="cantidad-control">
+            <label for="cant-${p.idproducto}">Cantidad:</label>
+            <input 
+              type="number" 
+              id="cant-${p.idproducto}" 
+              value="1" 
+              min="1" 
+              max="${p.stock || 1}"
+              ${!p.stock || p.stock === 0 ? 'disabled' : ''}
+            >
+          </div>
+          
+          <button 
+            class="btn btn-agregar" 
+            onclick="agregarAlCarrito(${p.idproducto})" 
+            ${!p.stock || p.stock === 0 ? 'disabled' : ''}
+          >
+            ${!p.stock || p.stock === 0 ? '❌ Sin Stock' : '🛒 Agregar al Carrito'}
+          </button>
+        </div>
+      </div>
     </div>
   `).join('');
 }
@@ -52,7 +78,7 @@ async function agregarAlCarrito(idproducto) {
     mostrarMensaje('Cantidad inválida', 'error');
     return;
   }
-  
+
   try {
     const res = await fetch('/api/carrito/agregar', {
       method: 'POST',
@@ -90,4 +116,5 @@ function mostrarMensaje(texto, tipo) {
   }, 3000);
 }
 
+// Cargar productos al iniciar
 cargarProductos();

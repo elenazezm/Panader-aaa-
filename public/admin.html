@@ -1,92 +1,83 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin - Panadería Navideña</title>
-  <link rel="stylesheet" href="/css/style.css">
+  <title>Admin - Panadería La Desesperanza</title>
+  <link rel="stylesheet" href="/css/admin.css">
+  <!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 
 <body>
-  <div class="header">
+  <header class="header">
     <div class="header-content">
       <h1>Panel de Administración</h1>
-      <div class="nav-links">
+      <nav class="nav-links">
         <a href="/productos.html">Productos</a>
         <a href="/perfil.html">Mi Perfil</a>
         <button class="btn-logout" onclick="cerrarSesion()">Cerrar Sesión</button>
-      </div>
+      </nav>
     </div>
-  </div>
+  </header>
 
-  <div class="container">
-    <h2 style="text-align: center; margin: 30px 0; color: var(--rojo-navidad); font-size: 2em;">
-      Gestión de Productos
-    </h2>
+  <main class="container">
+    <h2>📦 Gestión de Productos</h2>
 
-    <div class="form-container">
-      <h3>Agregar Nuevo Producto</h3>
+    <section class="form-container">
+      <h3>➕ Agregar Nuevo Producto</h3>
       <div id="mensaje"></div>
 
       <form id="formProducto">
         <div class="form-group">
-          <label for="nombre">Nombre</label>
+          <label>Nombre</label>
           <input type="text" id="nombre" required>
         </div>
 
         <div class="form-group">
-          <label for="descripcion">Descripción</label>
+          <label>Descripción</label>
           <textarea id="descripcion" rows="3" required></textarea>
         </div>
 
         <div class="form-group">
-          <label for="precio">Precio</label>
-          <input type="number" id="precio" step="0.01" min="0.01" max="999999" required>
+          <label>Precio</label>
+          <input type="number" id="precio" step="0.01" required>
         </div>
 
         <div class="form-group">
-          <label for="unidad_medida">Unidad de Medida</label>
-          <input type="text" id="unidad_medida" placeholder="ej: pieza, kg" required>
+          <label>Unidad de Medida</label>
+          <input type="text" id="unidad_medida" placeholder="pieza, kg…" required>
         </div>
 
         <div class="form-group">
-          <label for="idcategoria">Categoría (ID)</label>
-          <input type="number" id="idcategoria" value="1" min="1" required>
+          <label>Categoría (ID)</label>
+          <input type="number" id="idcategoria" value="1" required>
         </div>
 
         <div class="form-group">
-          <label for="stock">Stock Inicial</label>
-          <input type="number" id="stock" min="0" max="999999" value="0">
+          <label>Stock Inicial</label>
+          <input type="number" id="stock" value="0">
         </div>
 
         <div class="form-group">
-          <label for="imagen_url">URL de la Imagen</label>
-          <input type="url" id="imagen_url" placeholder="https://... (Cloudinary, S3, etc.)" autocomplete="off">
-          <small style="display:block; margin-top:8px; opacity:0.8;">
-            Pega una URL pública (HTTPS). Opcional.
-          </small>
-
-          <!-- Preview opcional -->
-          <div style="margin-top: 12px;">
-            <img id="previewImagen" alt="Preview de imagen"
-              style="max-width: 220px; max-height: 220px; border-radius: 10px; display: none;" />
-          </div>
+          <label>URL de Imagen</label>
+          <input type="url" id="imagen_url" placeholder="https://...">
+          <img id="previewImagen">
         </div>
 
-        <button type="submit" class="btn btn-primary">Agregar Producto</button>
+        <button class="btn btn-primary">➕ Agregar Producto</button>
       </form>
-    </div>
+    </section>
 
-    <h2 style="text-align: center; margin: 40px 0 20px; color: var(--rojo-navidad); font-size: 2em;">
-      Historial de Compras
-    </h2>
+    <h2>🧾 Historial de Compras</h2>
 
-    <div class="tabla-admin">
+    <section class="tabla-admin">
       <table>
         <thead>
           <tr>
-            <th>ID Pedido</th>
+            <th>ID</th>
             <th>Fecha</th>
             <th>Cliente</th>
             <th>Correo</th>
@@ -95,36 +86,51 @@
         </thead>
         <tbody id="historialBody"></tbody>
       </table>
-    </div>
-  </div>
+    </section>
+  </main>
 
-  <script>
-    // ✅ Preview simple de la imagen al pegar la URL
-    (function () {
-      const input = document.getElementById('imagen_url');
-      const img = document.getElementById('previewImagen');
+  <footer class="footer">
+<div class="footer-container">
+<div class="footer-brand">
+<h3>🥐 Panadería La Desesperanza</h3>
+<p>Hecho con amor, mantequilla y espíritu navideño.</p>
+</div>
+<div class="footer-contact">
+<h4>Contacto</h4>
+<p>📍 Zócalo, Centro Histórico, CDMX</p>
+<p>📞 55 0000 0000</p>
+<p>✉️ panaderialadesesperanza@gmail.com</p>
+</div>
+</div>
 
-      if (!input || !img) return;
+<!-- Mapa -->
+<div class="footer-mapa">
+<h4>📍 Encuéntranos</h4>
+<div id="mapa" style="height: 300px; border-radius: 15px; overflow: hidden;"></div>
+</div>
 
-      const setPreview = (url) => {
-        const clean = (url || '').trim();
-        if (!clean) {
-          img.style.display = 'none';
-          img.removeAttribute('src');
-          return;
-        }
-        img.src = clean;
-        img.style.display = 'block';
-      };
+<div class="footer-bottom">
+© 2026 Panadería La Desesperanza · Todos los derechos reservados
+</div>
+</footer>
 
-      input.addEventListener('input', () => setPreview(input.value));
-      input.addEventListener('change', () => setPreview(input.value));
+<!-- Script del mapa -->
+<script>
+// Inicializar mapa solo si el elemento existe
+if (document.getElementById('mapa')) {
+  const mapa = L.map('mapa').setView([19.4326, -99.1332], 16);
+  
+  // Agregar capa de mapa
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors'
+  }).addTo(mapa);
+  
+  // Marcador en el Zócalo
+  const marker = L.marker([19.4326, -99.1332]).addTo(mapa);
+  marker.bindPopup('<b>🥐 Panadería La Desesperanza</b><br>Zócalo, Centro Histórico').openPopup();
+}
+</script>
 
-      // Si el navegador autocompleta
-      setTimeout(() => setPreview(input.value), 150);
-    })();
-  </script>
   <script src="/js/admin.js"></script>
 </body>
-
 </html>
