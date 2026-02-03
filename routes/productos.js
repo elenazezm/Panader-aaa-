@@ -7,12 +7,7 @@ const { body, validationResult } = require('express-validator');
 router.get('/', async (req, res) => {
   try {
     const [productos] = await pool.query(
-      `SELECT p.idproducto, p.nombre, p.descripcion, p.precio, p.unidad_medida,
-              i.cantidad_actual as stock
-       FROM producto p
-       LEFT JOIN inventario i ON p.idproducto = i.id_producto
-       WHERE i.cantidad_actual > 0 OR i.cantidad_actual IS NULL
-       ORDER BY p.nombre`
+      `SELECT * FROM vw_productos_disponibles;`
     );
 
     res.json(productos);
@@ -52,7 +47,9 @@ router.post(
     body('idcategoria').isInt({ min: 1 }).withMessage('Categoría inválida'),
     body('descripcion').trim().notEmpty().withMessage('Descripción requerida'),
     body('unidad_medida').trim().notEmpty().withMessage('Unidad de medida requerida'),
-    body('stock').optional().isInt({ min: 0, max: 999999 }).withMessage('Stock inválido')
+    body('stock').optional().isInt({ min: 0, max: 999999 }).withMessage('Stock inválido'),
+    body('imagen_url').trim().notEmpty().withMessage('URL requerida'),
+
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -60,12 +57,12 @@ router.post(
       return res.status(400).json({ error: errors.array()[0].msg });
     }
 
-    const { nombre, precio, idcategoria, descripcion, unidad_medida, stock } = req.body;
+    const { nombre, precio, idcategoria, descripcion, unidad_medida, stock, imagen_url } = req.body;
 
     try {
       const [resultado] = await pool.query(
-        'INSERT INTO producto (nombre, precio, idcategoria, descripcion, unidad_medida) VALUES (?, ?, ?, ?, ?)',
-        [nombre, precio, idcategoria, descripcion, unidad_medida]
+        'INSERT INTO producto (nombre, precio, idcategoria, descripcion, unidad_medida, imagen_url) VALUES (?, ?, ?, ?, ?, ?)',
+        [nombre, precio, idcategoria, descripcion, unidad_medida, imagen_url]
       );
 
       const idproducto = resultado.insertId;
