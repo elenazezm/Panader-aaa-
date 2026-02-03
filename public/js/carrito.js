@@ -1,12 +1,16 @@
+//Variable para guardar el carrito
 let carrito = { items: [], total: 0 };
 
+//Cargar el carrito del usuario
 async function cargarCarrito() {
   try {
+
     const sesion = await fetch('/api/auth/perfil');
     if (!sesion.ok) {
       window.location.href = '/login.html';
       return;
     }
+    
     const res = await fetch('/api/carrito');
     carrito = await res.json();
     renderCarrito();
@@ -16,10 +20,12 @@ async function cargarCarrito() {
   }
 }
 
+//Mostrar productos en el carrito
 function renderCarrito() {
   const container = document.getElementById('carritoItems');
   const resumen = document.getElementById('carritoResumen');
   
+//Carrito viacio
   if (carrito.items.length === 0) {
     container.innerHTML = `
       <div class="carrito-vacio">
@@ -34,7 +40,8 @@ function renderCarrito() {
     resumen.style.display = 'none';
     return;
   }
-
+  
+//Detalle prodicto
   container.innerHTML = carrito.items.map(item => `
     <div class="carrito-item-card">
       <div class="item-imagen">
@@ -56,12 +63,14 @@ function renderCarrito() {
       </div>
     </div>
   `).join('');
-
+  
+  //Total
   document.getElementById('subtotalMonto').textContent = parseFloat(carrito.total).toFixed(2);
   document.getElementById('totalMonto').textContent = parseFloat(carrito.total).toFixed(2);
   resumen.style.display = 'block';
 }
 
+//Eliminar un producto 
 async function eliminarItem(idcarrito) {
   if (!confirm('¿Eliminar este producto del carrito?')) return;
   
@@ -84,9 +93,8 @@ async function vaciarCarrito() {
   if (!confirm('¿Estás seguro de vaciar todo el carrito?')) return;
   
   try {
-    // Eliminar todos los items uno por uno
     for (const item of carrito.items) {
-      await fetch(`/api/carrito/${item.idcarrito}`, { method: 'DELETE' });
+      await fetch(`/api/carrito/${idcarrito}`, { method: 'DELETE' });
     }
     mostrarMensaje('🗑️ Carrito vaciado', 'exito');
     cargarCarrito();
@@ -96,6 +104,7 @@ async function vaciarCarrito() {
   }
 }
 
+//Realizar la compra
 async function procesarCompra() {
   if (!confirm('¿Confirmar la compra de todos los productos?')) return;
   
@@ -115,6 +124,7 @@ async function procesarCompra() {
   }
 }
 
+//Ticket de compra
 function mostrarTicket(ticket) {
   document.getElementById('ticketNumero').textContent = ticket.numero_venta;
   document.getElementById('ticketFecha').textContent = ticket.fecha;
@@ -148,11 +158,10 @@ function mostrarMensaje(texto, tipo) {
   div.className = `mensaje ${tipo}`;
   div.textContent = texto;
   div.style.display = 'block';
-  
   setTimeout(() => {
     div.style.display = 'none';
   }, 3000);
 }
 
-// Cargar carrito al iniciar
+// Iniciar cargando el carrito
 cargarCarrito();

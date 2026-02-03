@@ -29,7 +29,7 @@ body {
   flex-direction: column;
 }
 
-/* ====== HEADER ====== */
+/* header */
 .header {
   background: rgba(255,255,255,.85);
   backdrop-filter: blur(14px);
@@ -86,7 +86,6 @@ body {
   transform: translateY(-2px);
 }
 
-/* ====== CONTENEDOR PRINCIPAL ====== */
 .container {
   max-width: 1400px;
   margin: auto;
@@ -94,7 +93,7 @@ body {
   flex: 1;
 }
 
-/* ====== MENSAJES ====== */
+/* mensajes */
 #mensaje {
   display: none;
   padding: 15px 20px;
@@ -105,6 +104,7 @@ body {
   animation: slideDown 0.3s ease;
 }
 
+/* ni idea */
 @keyframes slideDown {
   from {
     opacity: 0;
@@ -128,7 +128,7 @@ body {
   border: 1px solid #f5c6cb;
 }
 
-/* ====== GRID DE PRODUCTOS ====== */
+/* produtcto */
 .productos-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -136,7 +136,6 @@ body {
   margin-top: 30px;
 }
 
-/* ====== CARD DE PRODUCTO ====== */
 .producto-card {
   background: white;
   border-radius: var(--radius);
@@ -153,7 +152,7 @@ body {
   box-shadow: var(--shadow-hover);
 }
 
-/* ====== IMAGEN DEL PRODUCTO ====== */
+/* img */
 .producto-imagen {
   width: 100%;
   height: 240px;
@@ -187,7 +186,6 @@ body {
   opacity: 0.3;
 }
 
-/* Badge de agotado */
 .badge-agotado {
   position: absolute;
   top: 15px;
@@ -201,7 +199,6 @@ body {
   box-shadow: 0 4px 12px rgba(220, 53, 69, 0.4);
 }
 
-/* ====== INFORMACIÓN DEL PRODUCTO ====== */
 .producto-info {
   padding: 20px;
   display: flex;
@@ -224,7 +221,6 @@ body {
   flex: 1;
 }
 
-/* ====== FOOTER DE LA CARD ====== */
 .producto-footer {
   margin-top: auto;
 }
@@ -252,7 +248,6 @@ body {
   margin: 0;
 }
 
-/* ====== CONTROL DE CANTIDAD ====== */
 .cantidad-control {
   display: flex;
   align-items: center;
@@ -287,7 +282,6 @@ body {
   cursor: not-allowed;
 }
 
-/* ====== BOTÓN AGREGAR ====== */
 .btn-agregar {
   width: 100%;
   padding: 14px;
@@ -317,7 +311,7 @@ body {
   box-shadow: none;
 }
 
-/* ====== FOOTER ====== */
+/* footer */
 .footer {
   margin-top: auto;
   background: rgba(255, 255, 255, 0.8);
@@ -363,7 +357,7 @@ body {
   font-size: 0.9em;
 }
 
-/* ====== RESPONSIVE ====== */
+/* ni idea */
 @media (max-width: 768px) {
   .header-content {
     flex-direction: column;
@@ -408,7 +402,7 @@ body {
   }
 }
 
-/* ====== MAPA EN FOOTER ====== */
+/* leaflet */
 .footer-mapa {
   max-width: 1200px;
   margin: 30px auto 20px;
@@ -427,7 +421,6 @@ body {
   border: 3px solid var(--gold-main);
 }
 
-/* Ajustar z-index para que el mapa funcione */
 .leaflet-pane {
   z-index: 1;
 }

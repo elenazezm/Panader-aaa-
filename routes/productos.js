@@ -4,6 +4,7 @@ const pool = require('../config/db');
 const { requireAuth, requireAdmin } = require('../middleware/auth');
 const { body, validationResult } = require('express-validator');
 
+// Obtener todos los productos disponibles
 router.get('/', async (req, res) => {
   try {
     const [productos] = await pool.query(
@@ -17,6 +18,7 @@ router.get('/', async (req, res) => {
   }
 });
 
+// Obtener un producto por ID
 router.get('/:id', async (req, res) => {
   try {
     const [productos] = await pool.query(
@@ -38,6 +40,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+// Crear un nuevo producto
 router.post(
   '/',
   requireAdmin,
@@ -82,6 +85,7 @@ router.post(
   }
 );
 
+// Actualizar un producto existente
 router.put('/:id', requireAdmin, async (req, res) => {
   const { nombre, precio, descripcion, unidad_medida, stock } = req.body;
   const idproducto = req.params.id;
@@ -106,6 +110,7 @@ router.put('/:id', requireAdmin, async (req, res) => {
   }
 });
 
+// Eliminar un producto
 router.delete('/:id', requireAdmin, async (req, res) => {
   try {
     await pool.query('DELETE FROM producto WHERE idproducto = ?', [req.params.id]);

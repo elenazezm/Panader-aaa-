@@ -3,6 +3,7 @@ const router = express.Router();
 const pool = require('../config/db');
 const { requireAdmin } = require('../middleware/auth');
 
+//Historial de todos los pedidos
 router.get('/historial', requireAdmin, async (req, res) => {
   try {
     const [pedidos] = await pool.query(
@@ -22,6 +23,7 @@ router.get('/historial', requireAdmin, async (req, res) => {
   }
 });
 
+//Detalles de un pedido 
 router.get('/pedido/:id', requireAdmin, async (req, res) => {
   try {
     const [detalles] = await pool.query(
@@ -39,6 +41,7 @@ router.get('/pedido/:id', requireAdmin, async (req, res) => {
   }
 });
 
+//Lista de los usuarios
 router.get('/usuarios', requireAdmin, async (req, res) => {
   try {
     const [usuarios] = await pool.query(

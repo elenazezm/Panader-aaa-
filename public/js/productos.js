@@ -1,12 +1,16 @@
+//Pan
 let productos = [];
 
+// Cargar productos desde la bd
 async function cargarProductos() {
   try {
+
     const sesion = await fetch('/api/auth/perfil');
     if (!sesion.ok) {
       window.location.href = '/login.html';
       return;
     }
+    
     const res = await fetch('/api/productos');
     productos = await res.json();
     console.log('Productos cargados:', productos);
@@ -19,36 +23,33 @@ async function cargarProductos() {
 
 function renderProductos() {
   const grid = document.getElementById('productosGrid');
-
+  
   if (productos.length === 0) {
     grid.innerHTML = '<p style="text-align: center; grid-column: 1/-1; font-size: 1.2em; color: #666;">No hay productos disponibles</p>';
     return;
   }
-
+  
   grid.innerHTML = productos.map(p => `
     <div class="producto-card">
       <div class="producto-imagen">
-          ${p.imagen_url && p.imagen_url.trim() !== ''
-      ? `<img src="${p.imagen_url}" alt="${p.nombre}">`
-      : `
+        ${p.imagen_url && p.imagen_url.trim() !== ''
+          ? `<img src="${p.imagen_url}" alt="${p.nombre}">`
+          : `
               <div class="imagen-placeholder">
                 <span>🥐</span>
               </div>
             `
-    }
+        }
         ${(!p.stock || p.stock === 0) ? '<div class="badge-agotado">Agotado</div>' : ''}
       </div>
-      
       <div class="producto-info">
         <h3 class="producto-nombre">${p.nombre}</h3>
         <p class="producto-descripcion">${p.descripcion}</p>
-        
         <div class="producto-footer">
           <div class="precio-stock">
             <p class="producto-precio">$${parseFloat(p.precio).toFixed(2)}</p>
             <p class="producto-stock">Stock: ${p.stock || 0} ${p.unidad_medida}</p>
           </div>
-          
           <div class="cantidad-control">
             <label for="cant-${p.idproducto}">Cantidad:</label>
             <input 
@@ -60,7 +61,6 @@ function renderProductos() {
               ${!p.stock || p.stock === 0 ? 'disabled' : ''}
             >
           </div>
-          
           <button 
             class="btn btn-agregar" 
             onclick="agregarAlCarrito(${p.idproducto})" 
@@ -74,23 +74,24 @@ function renderProductos() {
   `).join('');
 }
 
+// Agregar pan  al carrito
 async function agregarAlCarrito(idproducto) {
   const cantidad = parseInt(document.getElementById(`cant-${idproducto}`).value);
-
+  
   if (cantidad <= 0 || cantidad > 9999) {
     mostrarMensaje('Cantidad inválida', 'error');
     return;
   }
-
+  
   try {
     const res = await fetch('/api/carrito/agregar', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ idproducto, cantidad })
     });
-
+    
     const data = await res.json();
-
+    
     if (res.ok) {
       mostrarMensaje('✅ Producto agregado al carrito', 'exito');
       document.getElementById(`cant-${idproducto}`).value = 1;
@@ -113,11 +114,10 @@ function mostrarMensaje(texto, tipo) {
   div.className = `mensaje ${tipo}`;
   div.textContent = texto;
   div.style.display = 'block';
-
   setTimeout(() => {
     div.style.display = 'none';
   }, 3000);
 }
 
-// Cargar productos al iniciar
+// Iniciar cargando los productos
 cargarProductos();

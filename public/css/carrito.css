@@ -31,7 +31,7 @@ body {
   flex-direction: column;
 }
 
-/* ====== HEADER ====== */
+/* header */
 .header {
   background: rgba(255,255,255,.85);
   backdrop-filter: blur(14px);
@@ -57,6 +57,7 @@ body {
   font-size: 1.5em;
 }
 
+/* navbar */
 .nav-links {
   display: flex;
   gap: 18px;
@@ -88,7 +89,7 @@ body {
   transform: translateY(-2px);
 }
 
-/* ====== CONTENEDOR ====== */
+/* cpntenido */
 .container {
   max-width: 1400px;
   margin: auto;
@@ -103,7 +104,7 @@ body {
   color: var(--blue-dark);
 }
 
-/* ====== MENSAJES ====== */
+/* mensajes */
 #mensaje {
   display: none;
   padding: 15px 20px;
@@ -114,6 +115,7 @@ body {
   animation: slideDown 0.3s ease;
 }
 
+/* ni idea */
 @keyframes slideDown {
   from {
     opacity: 0;
@@ -137,7 +139,7 @@ body {
   border: 1px solid #f5c6cb;
 }
 
-/* ====== LAYOUT DEL CARRITO ====== */
+/* carrito */
 .carrito-contenido {
   display: grid;
   grid-template-columns: 1fr 400px;
@@ -145,14 +147,12 @@ body {
   align-items: start;
 }
 
-/* ====== ITEMS DEL CARRITO ====== */
 .carrito-items {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
-/* ====== CARD DE ITEM ====== */
 .carrito-item-card {
   background: white;
   border-radius: var(--radius);
@@ -170,7 +170,7 @@ body {
   box-shadow: var(--shadow-hover);
 }
 
-/* Imagen del producto */
+/* img */
 .item-imagen {
   width: 120px;
   height: 120px;
@@ -193,7 +193,7 @@ body {
   opacity: 0.3;
 }
 
-/* Detalles del producto */
+/* pan */
 .item-detalles {
   flex: 1;
 }
@@ -217,7 +217,6 @@ body {
   color: var(--text);
 }
 
-/* Acciones del item */
 .item-acciones {
   text-align: right;
   display: flex;
@@ -250,7 +249,6 @@ body {
   transform: scale(1.05);
 }
 
-/* ====== CARRITO VACÍO ====== */
 .carrito-vacio {
   grid-column: 1 / -1;
   text-align: center;
@@ -293,7 +291,7 @@ body {
   transform: translateY(-2px);
 }
 
-/* ====== RESUMEN DE COMPRA ====== */
+/* ticket */
 .carrito-resumen {
   position: sticky;
   top: 100px;
@@ -344,7 +342,6 @@ body {
   font-size: 1.2em;
 }
 
-/* Botones del resumen */
 .btn-comprar,
 .btn-vaciar {
   width: 100%;
@@ -381,7 +378,6 @@ body {
   color: var(--red-danger);
 }
 
-/* ====== MODAL TICKET ====== */
 .modal-overlay {
   display: none;
   position: fixed;
@@ -400,6 +396,7 @@ body {
   animation: modalSlideIn 0.3s ease;
 }
 
+/* ni idea */
 @keyframes modalSlideIn {
   from {
     opacity: 0;
@@ -411,6 +408,7 @@ body {
   }
 }
 
+/* mas ticket */
 .ticket {
   background: white;
   border-radius: var(--radius);
@@ -543,7 +541,7 @@ hr {
   box-shadow: 0 6px 20px rgba(0, 89, 222, 0.4);
 }
 
-/* ====== FOOTER ====== */
+/* footer */
 .footer {
   margin-top: auto;
   background: rgba(255, 255, 255, 0.8);
@@ -589,7 +587,7 @@ hr {
   font-size: 0.9em;
 }
 
-/* ====== RESPONSIVE ====== */
+/* ni idea */
 @media (max-width: 1024px) {
   .carrito-contenido {
     grid-template-columns: 1fr;
@@ -656,7 +654,7 @@ hr {
   }
 }
 
-/* ====== MAPA EN FOOTER ====== */
+/* lealeft */
 .footer-mapa {
   max-width: 1200px;
   margin: 30px auto 20px;
@@ -675,7 +673,6 @@ hr {
   border: 3px solid var(--gold-main);
 }
 
-/* Ajustar z-index para que el mapa funcione */
 .leaflet-pane {
   z-index: 1;
 }

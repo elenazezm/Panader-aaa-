@@ -3,6 +3,7 @@ const router = express.Router();
 const pool = require('../config/db');
 const { requireAuth } = require('../middleware/auth');
 
+// Obtener los items del carrito
 router.get('/', requireAuth, async (req, res) => {
   try {
     const [items] = await pool.query(
@@ -23,6 +24,7 @@ router.get('/', requireAuth, async (req, res) => {
   }
 });
 
+// Agregar un item al carritox
 router.post('/agregar', requireAuth, async (req, res) => {
   const { idproducto, cantidad } = req.body;
 
@@ -64,6 +66,8 @@ router.post('/agregar', requireAuth, async (req, res) => {
     res.status(500).json({ error: 'Error al agregar al carrito' });
   }
 });
+
+// Eliminar un item del carrito
 router.delete('/:idcarrito', requireAuth, async (req, res) => {
   try {
     await pool.query(
@@ -77,6 +81,8 @@ router.delete('/:idcarrito', requireAuth, async (req, res) => {
     res.status(500).json({ error: 'Error al eliminar del carrito' });
   }
 });
+
+// Procesar la compra del carrito
 router.post('/comprar', requireAuth, async (req, res) => {
   const connection = await pool.getConnection();
 
@@ -140,6 +146,7 @@ router.post('/comprar', requireAuth, async (req, res) => {
       );
     }
 
+    // Limpiar el carrito
     await connection.query('DELETE FROM carrito WHERE idcliente = ? AND activo = 1', [req.session.userId]);
 
     await connection.commit();

@@ -24,7 +24,7 @@ body {
   color: var(--text);
 }
 
-/* HEADER */
+/* header */
 .header {
   background: rgba(255,255,255,.85);
   backdrop-filter: blur(14px);
@@ -46,10 +46,9 @@ body {
   font-weight: 800;
 }
 
-/* ❌ eliminar raya */
 .header h1::after { display: none; }
 
-/* NAV */
+/* navbar */
 .nav-links {
   display: flex;
   gap: 18px;
@@ -70,7 +69,7 @@ body {
   cursor: pointer;
 }
 
-/* CONTENIDO */
+/* contenido */
 .container {
   max-width: 1200px;
   margin: auto;
@@ -84,7 +83,7 @@ body {
   color: var(--blue-dark);
 }
 
-/* CARD */
+/* tarjeta */
 .form-container {
   max-width: 650px;
   margin: auto;
@@ -98,7 +97,7 @@ body {
   margin-top: 0;
 }
 
-/* FORM */
+/* formulario */
 .form-group {
   margin-bottom: 16px;
 }
@@ -121,7 +120,6 @@ input:focus, textarea:focus {
   border-color: var(--gold-dark);
 }
 
-/* BOTÓN */
 .btn-primary {
   width: 100%;
   padding: 14px;
@@ -133,7 +131,7 @@ input:focus, textarea:focus {
   cursor: pointer;
 }
 
-/* TABLA */
+/* tabla */
 .tabla-admin {
   margin-top: 30px;
   background: white;
@@ -155,7 +153,7 @@ th, td {
   padding: 14px;
 }
 
-/* ====== FOOTER ====== */
+/* footer */
 .footer {
   margin-top: auto;
   background: rgba(255, 255, 255, 0.8);
@@ -201,7 +199,7 @@ th, td {
   font-size: 0.9em;
 }
 
-/* RESPONSIVE */
+/* ni idea */
 @media (max-width: 768px) {
   .header-content {
     flex-direction: column;
@@ -214,7 +212,7 @@ th, td {
   }
 }
 
-/* ====== MAPA EN FOOTER ====== */
+/* leaflet */
 .footer-mapa {
   max-width: 1200px;
   margin: 30px auto 20px;
@@ -233,7 +231,6 @@ th, td {
   border: 3px solid var(--gold-main);
 }
 
-/* Ajustar z-index para que el mapa funcione */
 .leaflet-pane {
   z-index: 1;
 }

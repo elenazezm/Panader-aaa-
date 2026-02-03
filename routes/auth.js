@@ -3,6 +3,7 @@ const router = express.Router();
 const pool = require('../config/db');
 const { body, validationResult } = require('express-validator');
 
+//Registro de usuario
 router.post(
   '/registro',
   [
@@ -48,6 +49,7 @@ router.post(
   }
 );
 
+//Inicio de sesión
 router.post('/login', async (req, res) => {
   const { correo, password } = req.body;
 
@@ -93,6 +95,7 @@ router.post('/login', async (req, res) => {
   }
 });
 
+//Cerrar sesión
 router.post('/logout', (req, res) => {
   req.session.destroy(err => {
     if (err) return res.status(500).json({ error: 'Error al cerrar sesión' });

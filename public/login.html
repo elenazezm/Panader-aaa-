@@ -6,9 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Iniciar Sesión - Panadería La Desesperanza</title>
   <link rel="stylesheet" href="/css/login.css">
-  <!-- Leaflet CSS -->
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-<!-- Leaflet JS -->
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 
@@ -57,7 +55,6 @@
 </div>
 </div>
 
-<!-- Mapa -->
 <div class="footer-mapa">
 <h4>📍 Encuéntranos</h4>
 <div id="mapa" style="height: 300px; border-radius: 15px; overflow: hidden;"></div>
@@ -68,18 +65,14 @@
 </div>
 </footer>
 
-<!-- Script del mapa -->
 <script>
-// Inicializar mapa solo si el elemento existe
 if (document.getElementById('mapa')) {
   const mapa = L.map('mapa').setView([19.4326, -99.1332], 16);
   
-  // Agregar capa de mapa
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '© OpenStreetMap contributors'
   }).addTo(mapa);
   
-  // Marcador en el Zócalo
   const marker = L.marker([19.4326, -99.1332]).addTo(mapa);
   marker.bindPopup('<b>🥐 Panadería La Desesperanza</b><br>Zócalo, Centro Histórico').openPopup();
 }

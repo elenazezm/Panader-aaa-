@@ -1,3 +1,5 @@
+//Verificaciones de usuarios (cliente y admin)
+
 function requireAuth(req, res, next) {
   if (req.session && req.session.userId) {
     return next();

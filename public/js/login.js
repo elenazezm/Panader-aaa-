@@ -1,3 +1,4 @@
+//Formulario de inicio de sesión
 document.getElementById('loginForm').addEventListener('submit', async (e) => {
   e.preventDefault();
   
@@ -14,6 +15,8 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
     const data = await res.json();
     
     if (res.ok) {
+
+//Si es usuario o admin
       if (data.usuario.isAdmin) {
         window.location.href = '/admin.html';
       } else {
@@ -33,7 +36,6 @@ function mostrarMensaje(texto, tipo) {
   div.className = `mensaje ${tipo}`;
   div.textContent = texto;
   div.style.display = 'block';
-  
   setTimeout(() => {
     div.style.display = 'none';
   }, 5000);
